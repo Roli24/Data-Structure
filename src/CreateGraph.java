@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 public class CreateGraph {
@@ -7,42 +9,70 @@ public class CreateGraph {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		int v = 4;
+		int v = 5;
 		ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 		for (int i = 0; i < v; i++)
 			list.add(new ArrayList<Integer>());
 
-		addEdge(list, 0, 1);
-		addEdge(list, 1, 2);
-		addEdge(list, 1, 3);
+		addEdge(list, 0, 2);
+		addEdge(list, 0, 3);
 		addEdge(list, 2, 3);
-		//addEdge(list, 3, 3);
+		addEdge(list, 1, 3);
+		addEdge(list, 1, 4);
+		/*
+		 * addEdge(list, 1, 3); addEdge(list, 2, 3);
+		 */
+		// addEdge(list, 3, 3);
 
-		printGraph(list);
-		
-		boolean[] visited = new boolean[v];
+		HashMap<Integer, Integer> degree = printGraph(list);
+		topologicalSort(list, v, degree);
 
-		for(int i=0;i<v;i++)
-		{
-			if(visited[i]==false)
-			{
-				if(findCycleInGraph(list,i,visited,-1))
-				{
-					System.out.println("Cycle ");
-				}
-			}
-		}
-		
+		/*
+		 * boolean[] visited = new boolean[v];
+		 * 
+		 * for(int i=0;i<v;i++) { if(visited[i]==false) {
+		 * if(findCycleInGraph(list,i,visited,-1)) { System.out.println("Cycle "); } } }
+		 */
+
 		/*
 		 * for (int i = 0; i < v; i++) { if(visited[i]==false)
 		 */
-		//shortestPath(list, 0, visited);
+		// shortestPath(list, 0, visited);
 		// }
 		/*
 		 * for (int i = 0; i < v; i++) { if (visited[i] == false) { //bfs(list, i,
 		 * visited); dfs(list,i,visited); } }
 		 */
 
+	}
+
+	private static void topologicalSort(ArrayList<ArrayList<Integer>> list, int v, HashMap<Integer, Integer> degree) {
+		// TODO Auto-generated method stub
+
+		Queue<Integer> queue = new LinkedList<Integer>();
+		for(Map.Entry<Integer, Integer> m : degree.entrySet())
+		{
+			if(m.getValue()==0)
+				
+			{
+				queue.add(m.getKey());
+				System.out.println(m.getKey());
+			}
+				
+		}
+		while(queue.isEmpty()==false)
+		{
+			int data= queue.poll();
+			System.out.println(data);
+			for(int data1:list.get(data))
+			{
+				degree.put(data1,degree.get(data1)-1);
+				if(degree.get(data1)==0)
+					queue.add(data1);
+			}
+		}
+		
+		
 	}
 
 	private static boolean findCycleInGraph(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited, int parent) {
@@ -52,16 +82,14 @@ public class CreateGraph {
 		System.out.println("data-----------" + i);
 		for (int data : datalist) {
 			if (visited[data] == false) {
-				if(findCycleInGraph(list, data, visited,i)==true)
+				if (findCycleInGraph(list, data, visited, i) == true)
 					return true;
-				else if (i!=data)
+				else if (i != data)
 					return true;
 			}
 		}
 		return false;
-		
 
-		
 	}
 
 	private static void shortestPath(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited) {
@@ -122,22 +150,35 @@ public class CreateGraph {
 
 	}
 
-	private static void printGraph(ArrayList<ArrayList<Integer>> list) {
+	private static HashMap<Integer, Integer> printGraph(ArrayList<ArrayList<Integer>> list) {
 		// TODO Auto-generated method stub
-
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("list ith element--------" + i);
+			//System.out.println("list ith element--------" + i);
+			int count = 0;
+			if(map.get(i)==null)
+				map.put(i,0);
 			for (int j = 0; j < list.get(i).size(); j++) {
-				System.out.println(list.get(i).get(j));
+				
+			if(map.containsKey(list.get(i).get(j)))
+			{
+				map.put(list.get(i).get(j),map.get(list.get(i).get(j))+1);
+			}else
+			{
+				map.put(list.get(i).get(j),1);
+			}
+			
 			}
 		}
+				
+		return map;
 
 	}
 
 	private static void addEdge(ArrayList<ArrayList<Integer>> list, int i, int j) {
 		// TODO Auto-generated method stub
 		list.get(i).add(j);
-		list.get(j).add(i);
+		// list.get(j).add(i);
 
 	}
 
