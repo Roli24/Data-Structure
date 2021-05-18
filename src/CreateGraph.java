@@ -20,30 +20,56 @@ public class CreateGraph {
 
 		printGraph(list);
 		boolean[] visited = new boolean[v];
-		for (int i = 0; i < v; i++) {
-			if (visited[i] == false) {
-				//bfs(list, i, visited);
-				dfs(list,i,visited);
+
+		/*
+		 * for (int i = 0; i < v; i++) { if(visited[i]==false)
+		 */
+		shortestPath(list, 0, visited);
+		// }
+		/*
+		 * for (int i = 0; i < v; i++) { if (visited[i] == false) { //bfs(list, i,
+		 * visited); dfs(list,i,visited); } }
+		 */
+
+	}
+
+	private static void shortestPath(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited) {
+		// TODO Auto-generated method stub
+		int[] distance = new int[list.size()];
+		Queue<Integer> queue = new LinkedList<Integer>();
+		queue.add(i);
+		visited[i] = true;
+		while (queue.isEmpty() == false) {
+			int data = queue.poll();
+			System.out.println("data--------" + data);
+			for (int data1 : list.get(data)) {
+				if (visited[data1] == false) {
+					distance[data1] = distance[data] + 1;
+					visited[data1] = true;
+					queue.add(data1);
+				}
+
 			}
 		}
+
+		for (int j = 0; j < distance.length; j++)
+			System.out.println(distance[j]);
 
 	}
 
 	private static void dfs(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited) {
 		// TODO Auto-generated method stub
-		visited[i]=true;
+		visited[i] = true;
 		ArrayList<Integer> datalist = list.get(i);
-		System.out.println("data-----------"+i);
-		for(int data:datalist)
-		{
-			if(visited[data]==false)
-			{
-				visited[data]=true;
-				dfs(list,data,visited);
+		System.out.println("data-----------" + i);
+		for (int data : datalist) {
+			if (visited[data] == false) {
+				visited[data] = true;
+				dfs(list, data, visited);
 			}
-			
+
 		}
-		
+
 	}
 
 	private static void bfs(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited) {
@@ -55,12 +81,11 @@ public class CreateGraph {
 			int data = queue.poll();
 			System.out.println("data--------" + data);
 			for (int data1 : list.get(data)) {
-				if(visited[data1]=false)
-				{
+				if (visited[data1] = false) {
 					visited[data1] = true;
-					queue.add(data1);	
+					queue.add(data1);
 				}
-				
+
 			}
 		}
 
