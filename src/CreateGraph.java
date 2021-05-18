@@ -13,24 +13,55 @@ public class CreateGraph {
 			list.add(new ArrayList<Integer>());
 
 		addEdge(list, 0, 1);
-		addEdge(list, 0, 2);
-		addEdge(list, 2, 0);
+		addEdge(list, 1, 2);
+		addEdge(list, 1, 3);
 		addEdge(list, 2, 3);
-		addEdge(list, 3, 3);
+		//addEdge(list, 3, 3);
 
 		printGraph(list);
+		
 		boolean[] visited = new boolean[v];
 
+		for(int i=0;i<v;i++)
+		{
+			if(visited[i]==false)
+			{
+				if(findCycleInGraph(list,i,visited,-1))
+				{
+					System.out.println("Cycle ");
+				}
+			}
+		}
+		
 		/*
 		 * for (int i = 0; i < v; i++) { if(visited[i]==false)
 		 */
-		shortestPath(list, 0, visited);
+		//shortestPath(list, 0, visited);
 		// }
 		/*
 		 * for (int i = 0; i < v; i++) { if (visited[i] == false) { //bfs(list, i,
 		 * visited); dfs(list,i,visited); } }
 		 */
 
+	}
+
+	private static boolean findCycleInGraph(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited, int parent) {
+		// TODO Auto-generated method stub
+		visited[i] = true;
+		ArrayList<Integer> datalist = list.get(i);
+		System.out.println("data-----------" + i);
+		for (int data : datalist) {
+			if (visited[data] == false) {
+				if(findCycleInGraph(list, data, visited,i)==true)
+					return true;
+				else if (i!=data)
+					return true;
+			}
+		}
+		return false;
+		
+
+		
 	}
 
 	private static void shortestPath(ArrayList<ArrayList<Integer>> list, int i, boolean[] visited) {
@@ -106,6 +137,7 @@ public class CreateGraph {
 	private static void addEdge(ArrayList<ArrayList<Integer>> list, int i, int j) {
 		// TODO Auto-generated method stub
 		list.get(i).add(j);
+		list.get(j).add(i);
 
 	}
 
