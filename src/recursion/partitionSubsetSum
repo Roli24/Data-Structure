@@ -1,0 +1,19 @@
+https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1
+
+Given an array arr[] of size N, check if it can be partitioned into two parts such that the sum of elements in both parts is the same.
+
+Example 1:
+
+Input: N = 4
+arr = {1, 5, 11, 5}
+Output: YES
+Explanation: 
+The two parts are {1, 5, 5} and {11}.
+
+
+Solution:
+
+1) Take target as target/2 if target%2 == 0 then call recursion function it will not be possible to partition in equal half.
+2) either include an element or exclude an element if any of the combinations makes target zero it means we found a subset
+3) base condition: if we reach to index == 0 and target!=0 then that means its false
+4) If the target becomes negative then we can also return false as we don't need to take that scenario.
