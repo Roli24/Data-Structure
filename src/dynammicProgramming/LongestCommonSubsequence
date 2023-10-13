@@ -1,0 +1,52 @@
+// subsequence means that any elements can  be common but they are not continuous
+
+1. ABCDGH
+   AEDFHR
+
+  longest subsequence : 3 (ADH)
+
+2. XYZ
+  XYZ (both are equals it can be basecase)
+  longest subsequence : 3
+
+Recursion:
+
+1. we check each and every index that its value is same, if its same then we increase indexes
+2. else we take max by increasing str1 length or str2 length
+Complexity : exponential
+
+Memoisation:
+
+1. Time complexity: o(m*n) // where m is str1 length and n is str2 length
+  if its already computed we wont be computing as we have two strings we are taking
+  2d array. As every entry is going to be filled once hence complexity would be this
+  which is 2d array.
+
+
+  
+
+  First using recursion
+  // Here i started from index which is starting
+    private static int longestCommonSubsequence(String str1, String str2, int index1, int index2) {
+
+        if (str1.equals(str2)) {return str1.length();}
+
+        if (index1 > str1.length()-1 || index2 > str2.length()-1) {
+            return 0;
+        }
+
+
+        if (str1.charAt(index1) == str2.charAt(index2)) {
+            return 1 + longestCommonSubsequence(str1, str2, index1 + 1, index2 + 1);
+        }
+
+        else {
+            return Math.max(longestCommonSubsequence(str1, str2, index1 + 1, index2),
+                            longestCommonSubsequence(str1, str2, index1, index2 + 1));
+        }
+    }
+
+//
+                           
+
+  
